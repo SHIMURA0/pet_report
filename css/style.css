@@ -1,0 +1,246 @@
+/* 页面设置 */
+@page {
+  size: A4; /* 设置纸张大小为 A4 */
+  /*margin: 40mm; !* 设置边距 *!*/
+  /*@bottom-right {*/
+  /*  content: "第" counter(page) "页";*/
+  /*  font-size: 20px;*/
+  /*}*/
+  /*!* 设置页码计数器 *!*/
+  /*counter-reset: page;*/
+}
+
+@media print {
+  /* 在特定元素前插入分页 */
+  .page-break {
+    page-break-before: always; /* 在该元素之前换页 */
+  }
+
+  body {
+    -webkit-print-color-adjust: exact; /* 确保打印时颜色准确 */
+    background: none; /* 打印时去除背景渐变 */
+  }
+  /*.custom-gradient {*/
+  /*  background: none !important; !* 确保打印时禁用背景 *!*/
+  /*  color: black !important; !* 打印时字体显示为黑色 *!*/
+  /*}*/
+}
+
+body {
+  background: linear-gradient(135deg, #f4f7fa 0%, #e9f0f7 100%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.custom-gradient {
+  background: linear-gradient(45deg, #3B82F6, #2DD4BF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* 非 WebKit */
+  color: transparent; /* 确保文字透明，以展示渐变 */
+}
+
+.section-bg {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(209, 213, 219, 0.3);
+  /*box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);*/
+}
+
+/*肠道整体指标评估板块*/
+
+.card {
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: #EDF2F7;
+  overflow: hidden;
+}
+
+.progress-bar div {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.range-indicator {
+  height: 6px;
+  width: 100%;
+  background: #EDF2F7;
+  position: relative;
+  border-radius: 3px;
+}
+
+.range-bar {
+  position: absolute;
+  height: 6px;
+  background: rgba(203, 213, 224, 0.5);
+  border-radius: 3px;
+}
+
+.current-value {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  top: -3px;
+  transform: translateX(-50%);
+  border: 2px solid white;
+}
+
+/*门类菌群板块*/
+
+/* 柱状图交互样式 */
+.bar-container .bar {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.bar-container .bar:hover {
+  filter: brightness(1.1);
+}
+
+/* 网格线样式 */
+.grid-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #f0f0f0;
+}
+
+
+/*菌群整体评估板块*/
+.gradient-card {
+  background: linear-gradient(135deg, #f7ffff 0%, #edf8f8 100%);
+}
+
+.indicator-line {
+  height: 6px;
+  border-radius: 3px;
+  background: #e5e7eb;
+  position: relative;
+  overflow: hidden;
+}
+.indicator-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease-in-out;
+}
+.balance::after {
+  background: #10b981;
+  width: 75%;
+}
+.diversity::after {
+  background: #ef4444;
+  width: 30%;
+}
+.quantity::after {
+  background: #ef4444;
+  width: 20%;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  background-color: rgba(17, 24, 39, 0.95);
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 8px 12px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.75rem;
+  pointer-events: none;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/*表格样式*/
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 8px; /* 更小的内边距 */
+  line-height: 1.1; /* 设置较小的行间距 */
+}
+
+tr:not(:last-child) {
+  border-bottom: 1px solid #e2e8f0; /* 可选: 控制行间隔的边框 */
+}
+td:first-child {
+  padding-top: 10px; /* 对于第一个 <td> 使用 padding-top */
+}
+
+th {
+  background: #D6F5F9;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+tbody tr:hover {
+  background-color: rgba(173, 216, 230, 0.5);
+}
+
+.category-row {
+  background-color: #F9F0FE; /* 鸭绿色背景 */
+  font-weight: bold;
+  text-align: center;
+  color: white; /* 字体颜色设置为白色 */
+}
+
+.diet-card {
+  border-radius: 0.75rem;
+  /*box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);*/
+  overflow: hidden;
+  background-color: white;
+  /*max-width: 64rem;*/
+  margin: 0 auto;
+}
+
+.nutrition-bar {
+  height: 6px;
+  background-color: #f3f4f6;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 0.25rem 0;
+}
+
+.nutrition-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.status-tag {
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
