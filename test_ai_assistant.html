@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>谷禾直答 - 肠道菌群AI助手</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f4ff',
+              100: '#dbe4ff',
+              500: '#5964F2', // 知乎直答紫蓝色
+              600: '#4c56d6',
+            },
+            neutral: {
+              50: '#F6F6F8', // 侧边栏背景色
+              100: '#ecedf2',
+              200: '#e2e3ea',
+              300: '#d1d3e0',
+              400: '#b8bbcc',
+              500: '#9499b3',
+              600: '#777b9b',
+              700: '#5f627e',
+              800: '#494b60',
+              900: '#3d3e4d',
+              950: '#25262e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 3px;
+      height: 3px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: rgba(203, 213, 225, 0.8);
+      border-radius: 9999px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.8);
+    }
+    [x-cloak] {
+      display: none !important;
+    }
+
+    .sidebar {
+      transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: width;
+    }
+
+    .sidebar-text {
+      transition: opacity 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .sidebar-icon-container {
+      width: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+  </style>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+
+<body class="bg-neutral-50 h-screen flex">
+<div x-data="{ sidebarOpen: true, historyOpen: true }" class="flex w-full h-full">
+  <!-- 侧边栏 -->
+  <aside
+    class="sidebar h-full bg-neutral-50 flex flex-col flex-shrink-0 border-neutral-100 overflow-hidden"
+    :class="sidebarOpen ? 'w-[210px]' : 'w-16'"
+  >
+    <!-- 收起/展开按钮 -->
+    <div class="p-3 flex">
+      <button class="p-1.5 hover:bg-neutral-100 rounded-md flex items-center justify-center" @click="sidebarOpen = !sidebarOpen">
+        <svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- 品牌标志 -->
+    <div class="px-4 pb-3">
+      <div class="flex items-center">
+        <div class="sidebar-icon-container">
+          <div class="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center text-white font-semibold text-base">
+            谷
+          </div>
+        </div>
+        <div class="ml-3 sidebar-text" :class="sidebarOpen ? 'opacity-100' : 'opacity-0'">
+          <span class="text-2xl font-semibold text-primary-500">谷禾菌识</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 搜索栏 -->
+    <div class="px-3 mb-2">
+      <div class="flex">
+        <a href="#" class="sidebar flex items-center bg-white rounded-lg border border-neutral-200"
+           :class="sidebarOpen ? 'w-full px-3 py-2 justify-start' : 'w-10 h-10 justify-center'">
+          <div class="sidebar-icon-container">
+            <svg class="h-5 w-5 text-neutral-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </div>
+          <span class="ml-2 text-sm text-neutral-500 sidebar-text" :class="sidebarOpen ? 'opacity-100' : 'opacity-0'">搜索</span>
+          <div class="ml-auto px-1.5 py-0.5 bg-neutral-100 rounded text-xs text-neutral-500 sidebar-text" :class="sidebarOpen ? 'opacity-100' : 'opacity-0'">
+            ⌘ K
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 导航菜单 -->
+    <nav class="flex-1 overflow-y-auto scrollbar-thin">
+      <ul class="px-2 space-y-1">
+        <!-- 客户管理 -->
+        <li>
+          <a href="#" class="flex items-center rounded-lg text-neutral-700 hover:bg-neutral-100 transition-colors py-2.5"
+             :class="sidebarOpen ? 'px-3 justify-start' : 'justify-center'">
+            <div class="sidebar-icon-container">
+              <i class="fas fa-users h-5 w-5"></i>
+            </div>
+            <span class="text-sm ml-3 sidebar-text" :class="sidebarOpen ? 'opacity-100' : 'opacity-0'">项目管理</span>
+          </a>
+        </li>
+
+        <!-- 解读培训 -->
+        <li>
+          <a href="#" class="flex items-center rounded-lg text-neutral-700 hover:bg-neutral-100 transition-colors py-2.5"
+             :class="sidebarOpen ? 'px-3 justify-start' : 'justify-center'">
+            <div class="sidebar-icon-container">
+              <i class="fas fa-graduation-cap h-5 w-5"></i>
+            </div>
+            <span class="text-sm ml-3 sidebar-text" :class="sidebarOpen ? 'opacity-100' : 'opacity-0'">解读培训</span>
+          </a>
+        </li>
+
+        <!-- 收藏 -->
+        <li>
+          <a href="#" class="flex items-center rounded-lg text-neutral-700 hover:bg-neutral-100 transition-colors py-2.5"
+             :class="sidebarOpen ? 'px-3 justify-start' : 'justify-center'">
+            <div class="sidebar-icon-container">
+              <i class="fas fa-bookmark h-5 w-5"></i>
+            </div>
+            <span class="text-sm ml-3 sidebar-text" :class="sidebarOpen ? 'opacity-100' : 'opacity-0'">收藏</span>
+          </a>
+        </li>
+
+        <!-- 历史 -->
+        <li>
+          <a href="#"
+             @click.prevent="historyOpen = !historyOpen"
+             class="flex items-center rounded-lg text-neutral-700 hover:bg-neutral-100 transition-colors py-2.5"
+             :class="sidebarOpen ? 'px-3 justify-between' : 'justify-center'"
+          >
+            <div class="flex items-center">
+              <div class="sidebar-icon-container">
+                <i class="fas fa-history h-5 w-5"></i>
+              </div>
+              <span class="text-sm ml-3 sidebar-text" :class="sidebarOpen ? 'opacity-100' : 'opacity-0'">历史</span>
+            </div>
+
+            <i x-show="sidebarOpen"
+               class="fas fa-chevron-down h-4 w-4 text-neutral-400 transition-transform"
+               :class="historyOpen ? 'rotate-180' : ''">
+            </i>
+          </a>
+
+          <!-- 历史记录子菜单 -->
+          <div x-show="historyOpen && sidebarOpen" class="mt-1 ml-8 space-y-1">
+            <div class="text-xs text-neutral-400 py-1">今天</div>
+            <a href="#" class="block py-1.5 text-sm text-neutral-600 hover:text-neutral-900">
+              双歧杆菌
+            </a>
+            <!-- 更多历史记录可以在这里添加 -->
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- 用户信息 -->
+    <div class="mt-auto px-4 py-3 border-neutral-100">
+      <div class="flex items-center" :class="sidebarOpen ? 'justify-start' : 'justify-center'">
+        <div class="sidebar-icon-container">
+          <div class="h-8 w-8 rounded-full bg-neutral-200 flex items-center justify-center">
+            <svg class="h-4 w-4 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+        </div>
+        <div class="ml-3 sidebar-text" :class="sidebarOpen ? 'opacity-100' : 'opacity-0'">
+          <p class="text-sm font-medium text-neutral-700">简检康康</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 主内容区域 -->
+  <div class="flex-1 flex flex-col h-full overflow-hidden">
+    <!-- 白色圆角内容区 -->
+    <main class="flex-1 p-4 overflow-auto">
+      <div class="bg-white rounded-xl shadow-sm h-full flex flex-col relative">
+        <!-- 主内容区域 - 使用flex实现水平垂直居中 -->
+        <div class="flex-1 flex items-center justify-center p-4">
+          <!-- 内容容器 - 限制最大宽度 -->
+          <div class="w-full max-w-3xl rounded-xl p-6">
+            <!-- 标题区域 -->
+            <div class="text-center mb-6">
+              <h1 class="text-3xl font-medium text-neutral-800 inline-flex items-center justify-center">
+                <strong>探微知健，肠识新生</strong>
+                <span class="ml-2 px-2 py-0.5 bg-gradient-to-r from-sky-500 to-emerald-500 text-white text-xs rounded-full uppercase tracking-wider font-semibold">Beta</span>
+              </h1>
+              <p class="text-sm text-neutral-500 mt-2">融合AI科技与微生物组学，解析肠道菌群的健康密码</p>
+            </div>
+
+            <!-- 功能标签栏 -->
+            <div class="flex flex-wrap gap-2 mb-6">
+              <button class="flex items-center px-3 py-1.5 rounded-full bg-primary-50 text-primary-600 text-sm">
+                <svg class="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 10.5H4V17.5H8V10.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M20 4.5H16V17.5H20V4.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 7.5H10V17.5H14V7.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M4 17.5L20 17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                自由问答
+              </button>
+              <button class="flex items-center px-3 py-1.5 rounded-full bg-neutral-100 text-neutral-600 text-sm">
+                <svg class="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <rect x="9" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9 12H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9 16H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                报告总结
+              </button>
+              <button class="flex items-center px-3 py-1.5 rounded-full bg-neutral-100 text-neutral-600 text-sm">
+                <svg class="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 8H8V16H16V8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M4 4V20H20V4H4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                对比分析
+              </button>
+              <button class="flex items-center px-3 py-1.5 rounded-full bg-neutral-100 text-neutral-600 text-sm">
+                <svg class="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                干预方案
+              </button>
+              <button class="flex items-center px-3 py-1.5 rounded-full bg-neutral-100 text-neutral-600 text-sm">
+                <svg class="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19.1414 7.00001C19.1414 7.00001 16.6887 5.57858 15.464 5.0643C14.2393 4.55001 12 4.00001 12 4.00001C12 4.00001 9.76065 4.55001 8.53597 5.0643C7.3113 5.57858 4.85863 7.00001 4.85863 7.00001V13.2929C4.85863 13.2929 4.85863 16.5 12 20C19.1414 16.5 19.1414 13.2929 19.1414 13.2929V7.00001Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 8V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="12" cy="15" r="1" fill="currentColor"/>
+                </svg>
+                益生菌咨询
+              </button>
+<!--              <button class="flex items-center px-3 py-1.5 rounded-full bg-neutral-100 text-neutral-600 text-sm">-->
+<!--                <svg class="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--                  <path d="M5 6H19V18H5V6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                  <path d="M5 10H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                  <path d="M9 14H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                </svg>-->
+<!--                饮食建议-->
+<!--              </button>-->
+              <button class="flex items-center px-3 py-1.5 rounded-full bg-neutral-100 text-neutral-600 text-sm">
+                <svg class="w-4 h-4 mr-1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                科研查询
+              </button>
+            </div>
+
+            <!-- 输入区域 -->
+            <div class="relative rounded-lg border border-neutral-200 mb-4">
+            <textarea
+              class="w-full px-4 py-3 border-none focus:outline-none rounded-lg resize-none text-sm placeholder-neutral-400 min-h-[60px]"
+              placeholder="例如：肠道菌群检测的原理是什么？拟杆菌门与健康的关系如何？..."
+            ></textarea>
+
+              <!-- 工具栏 - 重新布局 -->
+              <div class="flex items-center justify-between px-3 py-2 border-neutral-100">
+                <!-- 左侧 - 深度思考模式 -->
+                <div class="flex items-center">
+
+                  <!-- 深度思考 - 使用Font Awesome闪电图标 -->
+                  <div class="flex items-center bg-neutral-50 rounded-lg p-1 mr-3">
+                    <i class="fas fa-bolt w-3 h-3 mr-1 text-neutral-700 flex items-center justify-center"></i>
+                    <span class="text-xs font-medium text-neutral-700">深度思考</span>
+                  </div>
+
+                  <!-- 开关按钮 - 更小尺寸且开启状态为蓝绿色 -->
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" checked>
+                    <div class="w-10 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cyan-100 rounded-full peer peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500 transition-colors duration-200 ease-in-out">
+                    </div>
+                  </label>
+
+                  <!--                  &lt;!&ndash; 知识模型选择 (可选) &ndash;&gt;-->
+<!--                  <div class="ml-4 flex items-center bg-neutral-50 rounded-lg p-1 hidden sm:flex">-->
+<!--                    <span class="text-neutral-700 font-normal text-sm p-1">知</span>-->
+<!--                    <span class="text-neutral-700 font-normal text-sm p-1">⚘</span>-->
+<!--                    <span class="text-neutral-700 font-normal text-sm p-1">📖</span>-->
+<!--                    <svg class="w-4 h-4 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">-->
+<!--                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>-->
+<!--                    </svg>-->
+<!--                  </div>-->
+                </div>
+
+                <!-- 右侧 - 工具按钮和发送 -->
+                <div class="flex items-center space-x-1">
+                  <!-- 工具图标 -->
+<!--                  <button class="p-1.5 hover:bg-neutral-100 rounded-full text-neutral-500">-->
+<!--                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">-->
+<!--                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />-->
+<!--                    </svg>-->
+<!--                  </button>-->
+<!--                  <button class="p-1.5 hover:bg-neutral-100 rounded-full text-neutral-500">-->
+<!--                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">-->
+<!--                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />-->
+<!--                    </svg>-->
+<!--                  </button>-->
+                  <button class="p-1.5 hover:bg-neutral-100 rounded-full text-neutral-500">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
+                    </svg>
+                  </button>
+
+                  <!-- 发送按钮 -->
+<!--                  <button class="bg-gradient-to-r from-blue-500 to-teal-400 hover:from-blue-600 hover:to-teal-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center transition-all duration-300 ml-1">-->
+<!--                    发送问题-->
+<!--                    <svg class="w-4 h-4 ml-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--                      <path d="M5 12H19" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                      <path d="M12 5L19 12L12 19" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                    </svg>-->
+<!--                  </button>-->
+                  <button class="bg-gradient-to-r from-blue-500 to-teal-400 hover:from-blue-600 hover:to-teal-500 text-white p-2 rounded-full flex items-center justify-center transition-all duration-300 ml-1 aspect-square w-7 h-7">
+                    <i class="fas fa-arrow-up text-white text-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 常见问题推荐区域 -->
+            <div class="flex flex-wrap gap-2 justify-center mb-6">
+              <button class="px-4 py-2 bg-neutral-50 hover:bg-neutral-100 text-neutral-700 text-sm rounded-xl transition-colors">
+                肠道菌群与免疫系统的关系？
+              </button>
+              <button class="px-4 py-2 bg-neutral-50 hover:bg-neutral-100 text-neutral-700 text-sm rounded-xl transition-colors">
+                哪些食物可以增加有益菌？
+              </button>
+              <button class="px-4 py-2 bg-neutral-50 hover:bg-neutral-100 text-neutral-700 text-sm rounded-xl transition-colors">
+                乳酸菌和双歧杆菌有什么区别？
+              </button>
+            </div>
+
+          </div>
+        </div>
+        <!--页脚-->
+        <div class="mb-4 flex flex-row items-center justify-center space-x-4 text-xs text-neutral-400">
+          <a href="#" class="hover:text-primary-500">用户协议</a>
+          <div class="h-3 w-px bg-neutral-300"></div>
+          <a href="#" class="hover:text-primary-500">隐私政策</a>
+          <div class="h-3 w-px bg-neutral-300"></div>
+          <div>备案号：Beijing-ZhiHaiTuAI-20231016</div>
+          <div class="h-3 w-px bg-neutral-300"></div>
+          <a href="#" class="hover:text-primary-500">© 2025 谷禾健康</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+</div>
+</body>
+</html>

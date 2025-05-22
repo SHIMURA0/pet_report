@@ -1,0 +1,597 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>晶象万象 | 臻品水晶艺术</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            crystal: {
+              light: '#eef2ff',
+              DEFAULT: '#d8e3ff',
+              dark: '#6a75a8',
+              glow: '#a5b4ff',
+              accent: '#9f7aea'
+            },
+          },
+          animation: {
+            'shimmer': 'shimmer 3s infinite linear',
+            'glow': 'glow 4s infinite alternate',
+          },
+          keyframes: {
+            shimmer: {
+              '0%': { transform: 'translateX(-100%)' },
+              '100%': { transform: 'translateX(100%)' }
+            },
+            glow: {
+              '0%': { opacity: 0.7 },
+              '100%': { opacity: 1 }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Serif SC', serif;
+    }
+
+    .crystal-title {
+      font-family: 'ZCOOL XiaoWei', serif;
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px 0 rgba(31, 38, 135, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .crystal-shadow {
+      box-shadow: 0 10px 25px -5px rgba(156, 163, 220, 0.5), 0 10px 10px -5px rgba(156, 163, 220, 0.2);
+    }
+
+    .crystal-shine {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .crystal-shine::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(30deg);
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+
+    .crystal-shine:hover::after {
+      opacity: 1;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .crystal-bg {
+      background-image: radial-gradient(circle at top right, rgba(198, 213, 255, 0.7), rgba(215, 201, 255, 0.1)),
+      radial-gradient(circle at bottom left, rgba(195, 223, 255, 0.4), rgba(235, 213, 255, 0.2));
+    }
+
+    .crystal-display {
+      position: relative;
+    }
+
+    .crystal-display::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 85%;
+      height: 85%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .crystal-display:hover::before {
+      opacity: 0.8;
+    }
+
+    .hexagon {
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+
+    .diamond {
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    .light-flare {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+      filter: blur(8px);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .float-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .prism-rainbow {
+      background: linear-gradient(90deg,
+      rgba(255, 105, 180, 0.2) 0%,
+      rgba(255, 153, 102, 0.2) 16.67%,
+      rgba(255, 255, 102, 0.2) 33.33%,
+      rgba(102, 255, 102, 0.2) 50%,
+      rgba(102, 102, 255, 0.2) 66.67%,
+      rgba(153, 102, 255, 0.2) 83.33%,
+      rgba(255, 105, 180, 0.2) 100%);
+      opacity: 0.4;
+      mix-blend-mode: overlay;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+<!-- 导航栏 -->
+<nav class="glass-effect fixed w-full z-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <span class="text-2xl crystal-title font-semibold text-crystal-dark">晶象万象</span>
+      </div>
+      <div class="hidden md:flex items-center space-x-10">
+        <a href="#" class="text-gray-700 hover:text-crystal-accent transition duration-300">首页</a>
+        <a href="#products" class="text-gray-700 hover:text-crystal-accent transition duration-300">精品系列</a>
+        <a href="#about" class="text-gray-700 hover:text-crystal-accent transition duration-300">品牌故事</a>
+        <a href="#contact" class="text-gray-700 hover:text-crystal-accent transition duration-300">联系我们</a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button class="text-gray-700 hover:text-crystal-accent transition duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+        <button class="text-gray-700 hover:text-crystal-accent transition duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span class="absolute top-3 right-16 bg-crystal-accent text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">2</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- 主视觉区域 -->
+<section class="pt-24 pb-16 crystal-bg min-h-screen flex items-center relative overflow-hidden">
+  <!-- 装饰光晕 -->
+  <div class="light-flare absolute top-1/4 left-1/3 animate-glow"></div>
+  <div class="light-flare absolute bottom-1/3 right-1/4 animate-glow" style="animation-delay: 1s;"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+    <div class="flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2 space-y-8">
+        <h1 class="text-5xl md:text-6xl crystal-title font-bold text-gray-800 leading-tight">
+          <span class="block bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">晶莹剔透，</span>
+          <span class="block text-crystal-dark mt-2">映照心灵之美</span>
+        </h1>
+        <p class="text-xl text-gray-600">探索我们精心挑选的水晶饰品系列，每一件作品都蕴含着大自然的灵性与匠人的心血，彰显无与伦比的质感与通透光彩。</p>
+        <button class="bg-gradient-to-r from-crystal-dark to-crystal-accent hover:opacity-90 text-white font-medium py-3 px-8 rounded-full transition duration-300 shadow-lg transform hover:-translate-y-1">
+          探索臻品
+        </button>
+      </div>
+      <div class="md:w-1/2 mt-12 md:mt-0 flex justify-center">
+        <div class="relative float-animation">
+          <!-- 六边形晶体 -->
+          <div class="hexagon w-72 h-72 bg-gradient-to-br from-white via-crystal-light to-crystal-glow rotate-12 crystal-shadow relative overflow-hidden">
+            <!-- 折射效果 -->
+            <div class="absolute inset-0 prism-rainbow"></div>
+            <div class="absolute -inset-0 bg-white opacity-50 mix-blend-overlay"></div>
+          </div>
+
+          <!-- 中心圆形晶体 -->
+          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-52 h-52 rounded-full bg-white bg-opacity-80 glass-effect flex items-center justify-center crystal-shadow z-10">
+            <span class="text-4xl crystal-title text-crystal-dark font-light">晶象万象</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 特色产品 -->
+<section class="py-20 bg-white relative overflow-hidden">
+  <!-- 背景装饰 -->
+  <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-crystal-light to-white opacity-40"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <h2 class="text-4xl crystal-title font-bold text-center text-gray-800 mb-4">臻选水晶</h2>
+    <p class="text-center text-gray-600 max-w-3xl mx-auto mb-16">每一件作品都是大自然与工艺的完美结合，呈现独一无二的晶莹质感</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      <!-- 产品1 -->
+      <div class="glass-card rounded-xl overflow-hidden crystal-shadow crystal-shine">
+        <div class="crystal-display aspect-w-1 aspect-h-1 bg-gradient-to-tr from-purple-100 to-blue-50">
+          <div class="w-full h-64 flex items-center justify-center relative">
+            <!-- 模拟水晶产品 -->
+            <div class="diamond w-40 h-40 bg-gradient-to-tr from-purple-200 to-blue-100 opacity-90 shadow-lg transform rotate-45"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-xl text-crystal-dark font-light opacity-80 tracking-wide">紫晶幻彩</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-800">紫水晶幻彩项链</h3>
+          <p class="text-gray-600 mt-2">精选顶级乌拉圭紫水晶，纯银链条手工打造，通透质感，折射万千光彩。</p>
+          <div class="mt-6 flex justify-between items-center">
+            <span class="text-xl font-medium text-crystal-accent">¥1,299</span>
+            <button class="bg-gradient-to-r from-crystal-dark to-crystal-accent text-white px-5 py-2 rounded-full hover:shadow-lg transition duration-300 transform hover:-translate-y-1">
+              立即选购
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 产品2 -->
+      <div class="glass-card rounded-xl overflow-hidden crystal-shadow crystal-shine">
+        <div class="crystal-display aspect-w-1 aspect-h-1 bg-gradient-to-tr from-blue-50 to-indigo-50">
+          <div class="w-full h-64 flex items-center justify-center relative">
+            <!-- 模拟水晶产品 -->
+            <div class="w-44 h-44 rounded-full bg-gradient-to-tr from-blue-100 to-white opacity-80 shadow-lg"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-xl text-crystal-dark font-light opacity-80 tracking-wide">晶透灵动</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-800">白水晶灵动手链</h3>
+          <p class="text-gray-600 mt-2">巴西天然白水晶，晶莹剔透，18K金点缀，尽显高贵与纯净。</p>
+          <div class="mt-6 flex justify-between items-center">
+            <span class="text-xl font-medium text-crystal-accent">¥899</span>
+            <button class="bg-gradient-to-r from-crystal-dark to-crystal-accent text-white px-5 py-2 rounded-full hover:shadow-lg transition duration-300 transform hover:-translate-y-1">
+              立即选购
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 产品3 -->
+      <div class="glass-card rounded-xl overflow-hidden crystal-shadow crystal-shine">
+        <div class="crystal-display aspect-w-1 aspect-h-1 bg-gradient-to-tr from-pink-50 to-purple-50">
+          <div class="w-full h-64 flex items-center justify-center relative">
+            <!-- 模拟水晶产品 -->
+            <div class="w-36 h-36 transform rotate-45 bg-gradient-to-tr from-pink-100 to-white opacity-80 shadow-lg"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-xl text-crystal-dark font-light opacity-80 tracking-wide">粉晶轻梦</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-800">粉晶轻梦耳坠</h3>
+          <p class="text-gray-600 mt-2">马达加斯加顶级粉晶，925银镶嵌，通透光泽，展现优雅柔美。</p>
+          <div class="mt-6 flex justify-between items-center">
+            <span class="text-xl font-medium text-crystal-accent">¥759</span>
+            <button class="bg-gradient-to-r from-crystal-dark to-crystal-accent text-white px-5 py-2 rounded-full hover:shadow-lg transition duration-300 transform hover:-translate-y-1">
+              立即选购
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-16">
+      <a href="#" class="inline-block bg-white px-8 py-3 border border-crystal-accent text-crystal-accent hover:text-white hover:bg-crystal-accent rounded-full transition duration-300 font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1">探索更多臻品水晶</a>
+    </div>
+  </div>
+</section>
+
+<!-- 产品分类 -->
+<section id="products" class="py-20 crystal-bg relative overflow-hidden">
+  <!-- 装饰元素 -->
+  <div class="absolute -top-20 -right-20 w-40 h-40 diamond bg-gradient-to-tr from-crystal-light to-white opacity-30 transform rotate-15"></div>
+  <div class="absolute -bottom-20 -left-20 w-40 h-40 hexagon bg-gradient-to-tr from-crystal-light to-white opacity-30"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <h2 class="text-4xl crystal-title font-bold text-center text-gray-800 mb-4">晶彩世界</h2>
+    <p class="text-center text-gray-600 max-w-3xl mx-auto mb-16">探索不同种类的水晶之美，感受大自然创造的奇迹</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- 分类1 -->
+      <div class="glass-card rounded-xl p-8 text-center crystal-shine">
+        <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-purple-200 via-purple-100 to-white flex items-center justify-center mb-6 crystal-shadow">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-crystal-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-3">项链系列</h3>
+        <p class="text-gray-600">精选世界各地顶级水晶，纯手工切割，折射万千光彩，衬托您的优雅气质。</p>
+        <a href="#" class="inline-block mt-6 text-crystal-accent hover:text-crystal-dark transition duration-300">探索更多 →</a>
+      </div>
+
+      <!-- 分类2 -->
+      <div class="glass-card rounded-xl p-8 text-center crystal-shine">
+        <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-blue-200 via-blue-100 to-white flex items-center justify-center mb-6 crystal-shadow">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-crystal-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-3">手链系列</h3>
+        <p class="text-gray-600">甄选通透水晶，光泽灵动，每一件都经过精心打磨，完美展现水晶独特的晶莹剔透。</p>
+        <a href="#" class="inline-block mt-6 text-crystal-accent hover:text-crystal-dark transition duration-300">探索更多 →</a>
+      </div>
+
+      <!-- 分类3 -->
+      <div class="glass-card rounded-xl p-8 text-center crystal-shine">
+        <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-pink-200 via-pink-100 to-white flex items-center justify-center mb-6 crystal-shadow">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-crystal-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-3">耳饰系列</h3>
+        <p class="text-gray-600">每一款耳饰都以通透水晶为主体，精致切割工艺，让光线在其中自由流转，闪耀迷人光彩。</p>
+        <a href="#" class="inline-block mt-6 text-crystal-accent hover:text-crystal-dark transition duration-300">探索更多 →</a>
+      </div>
+
+      <!-- 分类4 -->
+      <div class="glass-card rounded-xl p-8 text-center crystal-shine">
+        <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-indigo-200 via-indigo-100 to-white flex items-center justify-center mb-6 crystal-shadow">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-crystal-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-3">水晶摆件</h3>
+        <p class="text-gray-600">精选大型天然水晶原石，保留原始质感，通透晶莹，为您的居所增添自然艺术的光彩。</p>
+        <a href="#" class="inline-block mt-6 text-crystal-accent hover:text-crystal-dark transition duration-300">探索更多 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 品牌故事 -->
+<section id="about" class="py-20 bg-white relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-full h-full pointer-events-none">
+    <div class="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-gradient-to-br from-crystal-light to-white opacity-20"></div>
+    <div class="absolute bottom-1/4 left-0 w-80 h-80 rounded-full bg-gradient-to-tr from-crystal-light to-white opacity-20"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2 mb-12 md:mb-0">
+        <div class="relative">
+          <!-- 主图形 -->
+          <div class="w-full h-96 crystal-display glass-card rounded-2xl overflow-hidden crystal-shadow">
+            <div class="absolute inset-0 bg-gradient-to-br from-crystal-light via-white to-crystal opacity-60"></div>
+            <div class="absolute inset-0 prism-rainbow"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center">
+                <h3 class="crystal-title text-4xl text-crystal-dark">匠心•质感</h3>
+                <p class="mt-2 text-gray-600">传承自然之美，展现晶莹之魂</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 装饰元素 -->
+          <div class="absolute -bottom-8 -right-8 w-40 h-40 diamond bg-gradient-to-tr from-crystal-glow to-white opacity-70 crystal-shadow"></div>
+          <div class="absolute -top-8 -left-8 w-32 h-32 hexagon bg-gradient-to-tr from-crystal-glow to-white opacity-70 crystal-shadow"></div>
+        </div>
+      </div>
+      <div class="md:w-1/2 md:pl-16">
+        <h2 class="text-4xl crystal-title font-bold text-gray-800 mb-6">晶象万象的故事</h2>
+        <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+          晶象万象创立于2015年，由张鸿烈与张鸿瑞兄弟共同创办，是一家专注于高品质水晶饰品的设计、制作与销售的品牌。我们坚信，水晶不仅仅是饰品，更是大自然赐予人类的能量载体。
+        </p>
+        <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+          我们严选全球各地最优质的水晶原材料，采用传统工艺与现代技术相结合的方式，保留水晶原有的晶莹剔透，同时赋予其现代设计美感，让每一件作品都成为可佩戴的艺术品。
+        </p>
+        <p class="text-gray-600 text-lg leading-relaxed">
+          "晶象万象"这个名字寓意水晶如同万象之镜，折射出世界的缤纷与美丽。我们致力于通过水晶的晶莹剔透之美，为每一位顾客带来愉悦与感动。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 水晶质感展示 -->
+<section class="py-20 crystal-bg relative overflow-hidden">
+  <div class="light-flare absolute top-1/3 left-1/4 animate-glow"></div>
+  <div class="light-flare absolute bottom-1/4 right-1/3 animate-glow" style="animation-delay: 2s;"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <h2 class="text-4xl crystal-title font-bold text-center text-gray-800 mb-4">晶莹剔透的艺术</h2>
+    <p class="text-center text-gray-600 max-w-3xl mx-auto mb-16">每一块水晶都是大自然的鬼斧神工，我们只是将其最美的一面展现给您</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <!-- 质感展示1 -->
+      <div class="glass-card rounded-xl overflow-hidden crystal-shadow crystal-shine">
+        <div class="aspect-w-1 aspect-h-1 bg-gradient-to-tr from-indigo-50 to-white">
+          <div class="w-full h-64 flex items-center justify-center">
+            <div class="hexagon w-40 h-40 bg-gradient-to-tr from-indigo-100 to-white opacity-90 shadow-lg transform rotate-45 crystal-display"></div>
+          </div>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">蓝晶之光</h3>
+          <p class="text-gray-600">捕捉天空与海洋的纯净色彩，通透如水的质感令人沉醉</p>
+        </div>
+      </div>
+
+      <!-- 质感展示2 -->
+      <div class="glass-card rounded-xl overflow-hidden crystal-shadow crystal-shine">
+        <div class="aspect-w-1 aspect-h-1 bg-gradient-to-tr from-purple-50 to-white">
+          <div class="w-full h-64 flex items-center justify-center">
+            <div class="diamond w-40 h-40 bg-gradient-to-tr from-purple-100 to-white opacity-90 shadow-lg crystal-display"></div>
+          </div>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">紫晶神秘</h3>
+          <p class="text-gray-600">深邃而神秘的紫色光泽，在光线下展现迷人变幻的色彩</p>
+        </div>
+      </div>
+
+      <!-- 质感展示3 -->
+      <div class="glass-card rounded-xl overflow-hidden crystal-shadow crystal-shine">
+        <div class="aspect-w-1 aspect-h-1 bg-gradient-to-tr from-pink-50 to-white">
+          <div class="w-full h-64 flex items-center justify-center">
+            <div class="w-40 h-40 rounded-full bg-gradient-to-tr from-pink-100 to-white opacity-90 shadow-lg crystal-display"></div>
+          </div>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">粉晶温润</h3>
+          <p class="text-gray-600">如同初升朝霞的柔和色调，晶莹剔透中蕴含着温柔之美</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 客户评价 -->
+<section class="py-20 bg-white relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-full h-full pointer-events-none">
+    <div class="absolute top-1/4 right-1/4 w-72 h-72 rounded-full bg-gradient-to-br from-crystal-light to-white opacity-20"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-96 h-96 rounded-full bg-gradient-to-tr from-crystal-light to-white opacity-20"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <h2 class="text-4xl crystal-title font-bold text-center text-gray-800 mb-4">顾客心声</h2>
+    <p class="text-center text-gray-600 max-w-3xl mx-auto mb-16">每一位客户的真实体验是我们前进的动力</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- 评价1 -->
+      <div class="glass-card rounded-xl p-8 crystal-shadow">
+        <div class="flex items-center mb-6">
+          <div class="w-14 h-14 rounded-full bg-gradient-to-r from-crystal-glow to-white flex items-center justify-center shadow-md">
+            <span class="text-crystal-dark font-medium text-lg">李</span>
+          </div>
+          <div class="ml-4">
+            <h4 class="font-semibold text-gray-800">李佳玲</h4>
+            <div class="flex text-yellow-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-600 leading-relaxed">
+          "收到的紫水晶项链简直让我惊艳，晶体通透得如同一滴凝固的露珠，光线穿过时会折射出梦幻的紫色光晕。包装也非常精致，整体质感远超我的预期，真的太美了！"
+        </p>
+      </div>
+
+      <!-- 评价2 -->
+      <div class="glass-card rounded-xl p-8 crystal-shadow">
+        <div class="flex items-center mb-6">
+          <div class="w-14 h-14 rounded-full bg-gradient-to-r from-crystal-glow to-white flex items-center justify-center shadow-md">
+            <span class="text-crystal-dark font-medium text-lg">王</span>
+          </div>
+          <div class="ml-4">
+            <h4 class="font-semibold text-gray-800">王子明</h4>
+            <div class="flex text-yellow-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-600 leading-relaxed">
+          "给女友买的晶透手链质量超出预期，水晶的通透度极高，在阳光下能折射出彩虹般的光芒。女友戴上后爱不释手，每天都要发朋友圈炫耀。设计精巧，客服也很专业。"
+        </p>
+      </div>
+
+      <!-- 评价3 -->
+      <div class="glass-card rounded-xl p-8 crystal-shadow">
+        <div class="flex items-center mb-6">
+          <div class="w-14 h-14 rounded-full bg-gradient-to-r from-crystal-glow to-white flex items-center justify-center shadow-md">
+            <span class="text-crystal-dark font-medium text-lg">张</span>
+          </div>
+          <div class="ml-4">
+            <h4 class="font-semibold text-gray-800">张雨晨</h4>
+            <div class="flex text-yellow-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-600 leading-relaxed">
+          "第三次从晶象万象购买水晶饰品了，品质始终如一。这次的白水晶耳坠简直是艺术品，通透得几乎看不到任何瑕疵，阳光下晶莹剔透的质感令人心醉，已经推荐给所有闺蜜了！"
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
