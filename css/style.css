@@ -1,51 +1,68 @@
 /* 页面设置 */
 @page {
   size: A4; /* 设置纸张大小为 A4 */
-  margin: 15mm;
+  /*margin: 15mm;*/
   /*margin: 40mm; !* 设置边距 *!*/
-  /*@bottom-right {*/
-  /*  content: "第" counter(page) "页";*/
-  /*  font-size: 20px;*/
-  /*}*/
+  @bottom-right {
+    content: "第" counter(page) "页";
+    font-size: 20px;
+  }
   /* 设置页码计数器 */
   counter-reset: page;
 }
 
 @media print {
+  @page {
+    size: A4;
+  }
   /* 在特定元素前插入分页 */
   .page-break {
     page-break-before: always; /* 在该元素之前换页 */
   }
 
+  /* 仅为分页后的第一行增加间距 */
+  .new-page tr:first-child {
+    margin-top: 50px; /* 设置间距 */
+    display: table-row; /* 确保行按表格显示 */
+  }
+
   body {
     -webkit-print-color-adjust: exact; /* 确保打印时颜色准确 */
     background: none; /* 打印时去除背景渐变 */
+
+    th, td {
+      page-break-inside: avoid !important; /* 避免行内分页 */
+      break-inside: avoid !important; /* 对于较旧的浏览器 */
+    }
+    tr {
+      page-break-inside: avoid !important; /* 避免行内分页 */
+    }
   }
 
   .A4-container {
-    padding: 0;
+    padding: 0px;
     width: 100%;
   }
+
   /*.custom-gradient {*/
   /*  background: none !important; !* 确保打印时禁用背景 *!*/
   /*  color: black !important; !* 打印时字体显示为黑色 *!*/
   /*}*/
-
-    /*#cat-microbiome-sankey {*/
-    /*  width: 100% !important; !* A4纸宽度减去边距 *!*/
-    /*  height: 500px!important;*/
-    /*  transform: scale(0.9); !* 稍微缩小以确保完全显示 *!*/
-    /*  transform-origin: top left;*/
-    /*}*/
+  /*#cat-microbiome-sankey {*/
+  /*  width: 100% !important; !* A4纸宽度减去边距 *!*/
+  /*  height: 500px!important;*/
+  /*  transform: scale(0.9); !* 稍微缩小以确保完全显示 *!*/
+  /*  transform-origin: top left;*/
+  /*}*/
 
 }
-
 
 
 body {
   background: linear-gradient(135deg, #f4f7fa 0%, #e9f0f7 100%);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
+
 .custom-gradient {
   background: linear-gradient(45deg, #3B82F6, #2DD4BF);
   -webkit-background-clip: text;
@@ -196,6 +213,7 @@ body {
 .harmful-bacteria {
   background: linear-gradient(135deg, #F43F5E, #E11D48);
 }
+
 .harmful-bacteria .status-label {
   background-color: rgba(255, 255, 255, 0.2);
 }
@@ -233,27 +251,34 @@ body {
   max-width: 1000px;
   margin: 0 auto;
 }
+
 .anomaly-section {
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
+
 /* 核心菌群 - 淡蓝色主题 */
 .core-bacteria {
   background-color: #F0F7FF;
 }
+
 .core-bacteria .icon-circle {
   background-color: #DBEAFE;
 }
+
 .core-bacteria .title {
   color: #2563EB;
 }
+
 .core-bacteria .count {
   color: #3B82F6;
 }
+
 .core-bacteria .item-name {
   color: #2563EB;
 }
+
 .core-bacteria .status-badge {
   background-color: #DBEAFE;
   color: #1E40AF;
@@ -263,18 +288,23 @@ body {
 .beneficial-bacteria {
   background-color: #F0FDF4;
 }
+
 .beneficial-bacteria .icon-circle {
   background-color: #DCFCE7;
 }
+
 .beneficial-bacteria .title {
   color: #16A34A;
 }
+
 .beneficial-bacteria .count {
   color: #22C55E;
 }
+
 .beneficial-bacteria .item-name {
   color: #16A34A;
 }
+
 .beneficial-bacteria .status-badge {
   background-color: #DCFCE7;
   color: #166534;
@@ -284,18 +314,23 @@ body {
 .harmful-bacteria {
   background-color: #FEF2F2;
 }
+
 .harmful-bacteria .icon-circle {
   background-color: #FEE2E2;
 }
+
 .harmful-bacteria .title {
   color: #DC2626;
 }
+
 .harmful-bacteria .count {
   color: #EF4444;
 }
+
 .harmful-bacteria .item-name {
   color: #DC2626;
 }
+
 .harmful-bacteria .status-badge {
   background-color: #FEE2E2;
   color: #B91C1C;
@@ -305,18 +340,23 @@ body {
 .zoonotic-bacteria {
   background-color: #F5F3FF;
 }
+
 .zoonotic-bacteria .icon-circle {
   background-color: #EDE9FE;
 }
+
 .zoonotic-bacteria .title {
   color: #7C3AED;
 }
+
 .zoonotic-bacteria .count {
   color: #8B5CF6;
 }
+
 .zoonotic-bacteria .item-name {
   color: #7C3AED;
 }
+
 .zoonotic-bacteria .status-badge {
   background-color: #EDE9FE;
   color: #6D28D9;
@@ -328,6 +368,7 @@ body {
   align-items: center;
   margin-bottom: 20px;
 }
+
 .icon-circle {
   width: 36px;
   height: 36px;
@@ -338,15 +379,18 @@ body {
   margin-right: 12px;
   flex-shrink: 0;
 }
+
 .title {
   font-size: 18px;
   font-weight: 600;
 }
+
 .content-grid {
   display: grid;
   grid-template-columns: 1fr 3fr;
   gap: 16px;
 }
+
 .count-card {
   background-color: white;
   border-radius: 12px;
@@ -357,47 +401,56 @@ body {
   justify-content: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
+
 .count-display {
   display: flex;
   align-items: baseline;
   margin-bottom: 8px;
 }
+
 .count {
   font-size: 42px;
   font-weight: 700;
   line-height: 1;
   margin-right: 4px;
 }
+
 .total {
   font-size: 20px;
   color: #9CA3AF;
   font-weight: 400;
 }
+
 .count-label {
   font-size: 14px;
   color: #6B7280;
   text-align: center;
 }
+
 .details-card {
   background-color: white;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
+
 .details-header {
   margin-bottom: 16px;
   font-weight: 500;
   color: #4B5563;
   font-size: 16px;
 }
+
 .item-container {
   display: flex;
   align-items: flex-start;
   margin-bottom: 16px;
 }
+
 .item-container:last-child {
   margin-bottom: 0;
 }
+
 .item-name {
   font-weight: 600;
   margin-right: 16px;
@@ -405,9 +458,11 @@ body {
   font-size: 15px;
   padding-top: 4px;
 }
+
 .item-details {
   flex: 1;
 }
+
 .status-badge {
   display: inline-block;
   padding: 4px 12px;
@@ -416,11 +471,13 @@ body {
   font-weight: 500;
   margin-bottom: 12px;
 }
+
 .item-description {
   color: #4B5563;
   font-size: 14px;
   line-height: 1.6;
 }
+
 .icon {
   width: 20px;
   height: 20px;
@@ -432,10 +489,12 @@ body {
 /*肠道整体指标评估板块*/
 
 .card {
-  background: white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  background: transparent;
+  /*background: transparent;*/
+  /*box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);*/
+  border : 1px solid rgba(203, 213, 224, 0.5);
   border-radius: 16px;
-  overflow: hidden;
+  /*overflow: hidden;*/
   height: 100%;
 }
 
@@ -510,6 +569,7 @@ body {
   position: relative;
   overflow: hidden;
 }
+
 .indicator-line::after {
   content: '';
   position: absolute;
@@ -519,23 +579,28 @@ body {
   border-radius: 3px;
   transition: width 1s ease-in-out;
 }
+
 .balance::after {
   background: #10b981;
   width: 75%;
 }
+
 .diversity::after {
   background: #ef4444;
   width: 30%;
 }
+
 .quantity::after {
   background: #ef4444;
   width: 20%;
 }
+
 .tooltip {
   position: relative;
   display: inline-block;
   cursor: pointer;
 }
+
 .tooltip .tooltiptext {
   visibility: hidden;
   position: absolute;
@@ -554,6 +619,7 @@ body {
   font-size: 0.75rem;
   pointer-events: none;
 }
+
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
@@ -591,6 +657,16 @@ body {
   width: 75%;
 }
 
+.bacteria-overall-balance-indicator-25 {
+  background: #10B981;
+  width: 25%;
+}
+
+.bacteria-overall-balance-indicator-41 {
+  background: #10B981;
+  width: 41%;
+}
+
 /* 菌群多样性进度条颜色 */
 .bacteria-overall-diversity-indicator {
   background: #EF4444;
@@ -601,6 +677,16 @@ body {
 .bacteria-overall-quantity-indicator {
   background: #EF4444;
   width: 20%;
+}
+
+.bacteria-overall-quantity-indicator-10 {
+  background: #10B981;
+  width: 10.8%;
+}
+
+.bacteria-overall-quantity-indicator-28 {
+  background: #10B981;
+  width: 28%;
 }
 
 /* 健康状态标志 */
@@ -657,6 +743,51 @@ body {
   left: 75%;
 }
 
+.bacteria-overall-data-point.bacteria-overall-23 {
+  background: #10B981;
+  left: 23%;
+}
+
+.bacteria-overall-data-point.bacteria-overall-28 {
+  background: #10B981;
+  left: 28%;
+}
+
+.bacteria-overall-data-point.bacteria-overall-33 {
+  background: #10B981;
+  left: 33%;
+}
+
+.bacteria-overall-data-point.bacteria-overall-41 {
+  background: #10B981;
+  left: 41%;
+}
+
+.bacteria-overall-data-point.bacteria-overall-59 {
+  background: #10B981;
+  left: 59%;
+}
+
+.bacteria-overall-data-point.bacteria-overall-25 {
+  background: #10B981;
+  left: 25%;
+}
+
+.bacteria-overall-data-point.bacteria-overall-15 {
+  background: #FF0000;
+  left: 15%;
+}
+
+.bacteria-overall-data-point.bacteria-overall-50 {
+  background: #10B981;
+  left: 50%;
+}
+
+.bacteria-overall-data-point.bacteria-overall-90 {
+  background: #6B46C1;
+  left: 90%;
+}
+
 .bacteria-overall-data-point.bacteria-overall-diversity {
   background: #EF4444;
   left: 30%;
@@ -667,6 +798,16 @@ body {
   left: 20%;
 }
 
+.bacteria-overall-data-point.bacteria-overall-quantity-10 {
+  background: #10B981;
+  left: 10.8%;
+}
+
+.bacteria-overall-data-point.bacteria-overall-quantity-28 {
+  background: #10B981;
+  left: 28%;
+}
+
 /* 进度标记 */
 .bacteria-overall-progress-marker {
   position: absolute;
@@ -675,9 +816,33 @@ body {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.bacteria-overall-marker-25 { left: 25%; }
-.bacteria-overall-marker-50 { left: 50%; }
-.bacteria-overall-marker-75 { left: 75%; }
+.bacteria-overall-marker-25 {
+  left: 25%;
+}
+
+.bacteria-overall-marker-15 {
+  left: 15%;
+}
+
+.bacteria-overall-marker-30 {
+  left: 30%;
+}
+
+.bacteria-overall-marker-55 {
+  left: 55%;
+}
+
+.bacteria-overall-marker-80 {
+  left: 80%;
+}
+
+.bacteria-overall-marker-50 {
+  left: 50%;
+}
+
+.bacteria-overall-marker-75 {
+  left: 75%;
+}
 
 /*表格样式*/
 
@@ -855,5 +1020,68 @@ tbody tr:hover {
 
 .SCFAs-divider {
   margin: 6px 0;
+}
+
+
+.circular-chart {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #edf2f7;
+  stroke-width: 20;
+}
+
+.circle {
+  fill: none;
+  stroke: #3b82f6;
+  stroke-width: 20;
+  stroke-linecap: round;
+  stroke-dasharray: 283, 283;
+  stroke-dashoffset: 36.79; /* 为87%的得分：283 * (1 - 0.87) */
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.gradient-blue {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.gradient-green {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.gradient-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+}
+
+.bacteria-item {
+  transition: all 0.2s ease;
+}
+
+.bacteria-item:hover {
+  transform: translateX(5px);
+}
+
+.color-square {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  margin-right: 8px;
 }
 
